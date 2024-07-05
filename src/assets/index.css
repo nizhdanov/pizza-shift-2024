@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 29% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+    --primary: 14 91% 54%;
+    --primary-foreground: 60 9.1% 97.8%;
+    --secondary: 216 18% 96%;
+    --secondary-foreground: 24 9.8% 10%;
+    --muted: 216 18% 96%;
+    --muted-foreground: 216 14% 45%;
+    --accent: 216 18% 96%;
+    --accent-foreground: 24 9.8% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+    --border: 220 14% 83%;
+    --input: 220 14% 83%;
+    --ring: 14 91% 54%;
+    --radius: 1rem;
+
+    --tertiary: 216 14% 45%;
+    --indicator-light: 220 14% 83%;
+    --quartenery: 97 13% 64%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #ced2da;
+    border-radius: 100vh;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #bbbfc8;
+  }
+}

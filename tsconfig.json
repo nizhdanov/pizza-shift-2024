@@ -23,7 +23,12 @@
     /* Alliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@modules/*": ["src/lib/modules/*"],
+      "@hooks/*": ["src/lib/hooks/*"],
+      "@utils/*": ["src/lib/utils/*"],
+      "@icons/*": ["src/components/icons/*"],
+      "@ui/*": ["src/components/ui/*"],
+      "@/*": ["src/*"]
     }
   },
   "include": ["src"],

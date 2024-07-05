@@ -19,10 +19,15 @@ module.exports = {
         groups: [
           // External packages:
           ['^react', '^@?\\w'],
-          // Internal packages:
-          ['^@(siberiacancode-core/.*|$)'],
           // Alias imports:
-          ['^@(([\\/.]?\\w)|assets|test-utils)'],
+          [
+            '^@(([\\/.]?\\w)|assets|test-utils)',
+            '^@hooks?\\w',
+            '^@ui?\\w',
+            '^@utils?\\w',
+            '^@icons?\\w',
+            '^@modules?\\w'
+          ],
           // Side effect imports:
           ['^\\u0000'],
           // Parent imports:
