@@ -4,10 +4,11 @@ import { ShoppingCartIcon } from 'lucide-react';
 import { PATHS } from '@/lib/constants/paths';
 import { useAppSelector } from '@/lib/store';
 import { useIsDesktop } from '@hooks/useIsDesktop';
+import { cartSlice } from '@modules/cart';
 
 export const CartButton = () => {
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector((state) => Object.values(state.cart));
+  const cart = useAppSelector(cartSlice.selectors.selectCartItems);
 
   const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
 

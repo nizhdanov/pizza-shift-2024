@@ -17,11 +17,12 @@ import { Sheet, SheetBody, SheetContent, SheetHeader, SheetTitle, SheetTrigger }
 import { Span } from '@ui/typography';
 import { cn } from '@utils/cn';
 import { FullLogoIcon } from '@icons/FullLogoIcon';
+import { cartSlice } from '@modules/cart';
 
 export const Header = () => {
   const isAuth = false;
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector((state) => Object.values(state.cart));
+  const cart = useAppSelector(cartSlice.selectors.selectCartItems);
 
   const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
 

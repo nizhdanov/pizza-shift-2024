@@ -1,12 +1,13 @@
 import { XIcon } from 'lucide-react';
 
 import { cmMap, doughMap, sizeMap, toppingMap } from '@/lib/constants/pizzaMap';
-import { useAppSelector } from '@/lib/store';
+import { useAppDispatch, useAppSelector } from '@/lib/store';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { Button } from '@ui/button';
 import { Span, Typography, typographyVariants } from '@ui/typography';
 import { calculatePizzaPrice } from '@utils/calculatePizzaPrice';
 import { cn } from '@utils/cn';
+import { cartSlice } from '@modules/cart';
 
 function toppingsToString(toppings: CartPizza['toppings']) {
   if (toppings.length > 0) {
@@ -21,12 +22,22 @@ function toppingsToString(toppings: CartPizza['toppings']) {
 
 export const CartPage = () => {
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector((state) => Object.values(state.cart));
+  const cart = useAppSelector(cartSlice.selectors.selectCartItems);
+  const dispatch = useAppDispatch();
+
   const totalPrice = cart.map((pizza) => calculatePizzaPrice(pizza)).reduce((a, b) => a + b, 0);
 
-  const increaseCount = () => {};
+  const handleIncreaseCount = (id: string) => {
+    dispatch(cartSlice.actions.increase(id));
+  };
 
-  const decreaseCount = () => {};
+  const handleDecreaseCount = (id: string) => {
+    dispatch(cartSlice.actions.decrease(id));
+  };
+
+  const handleRemoveItem = (id: string) => {
+    dispatch(cartSlice.actions.remove(id));
+  };
 
   if (cart.length <= 0) {
     return (
@@ -67,9 +78,19 @@ export const CartPage = () => {
                       : typographyVariants({ variant: '12-regular' })
                   )}
                 >
-                  <button className='size-4 md:size-5'>–</button>
+                  <button
+                    className='size-4 md:size-5'
+                    onClick={() => handleDecreaseCount(pizza.id)}
+                  >
+                    –
+                  </button>
                   <span className='size-4 md:size-5'>{pizza.count}</span>
-                  <button className='size-4 md:size-5'>+</button>
+                  <button
+                    className='size-4 md:size-5'
+                    onClick={() => handleIncreaseCount(pizza.id)}
+                  >
+                    +
+                  </button>
                 </div>
                 <button
                   className={typographyVariants({
@@ -84,7 +105,10 @@ export const CartPage = () => {
             </div>
 
             {isDesktop && (
-              <button className='absolute -right-1 -top-3 size-6'>
+              <button
+                className='absolute -right-1 -top-3 size-6'
+                onClick={() => handleRemoveItem(pizza.id)}
+              >
                 <XIcon />
               </button>
             )}

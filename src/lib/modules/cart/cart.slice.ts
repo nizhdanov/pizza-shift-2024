@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type CartItem = CartPizza & {
   count: number;
@@ -10,7 +10,11 @@ const initialState: Record<CartItem['id'], CartItem> = {};
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
-  selectors: {},
+  selectors: {
+    selectCartItems: createSelector([(state: typeof initialState) => state], (cart) =>
+      Object.values(cart)
+    )
+  },
   reducers: {
     add: (state, action: PayloadAction<CartItem>) => {
       state[action.payload.id] = action.payload;
@@ -23,7 +27,11 @@ export const cartSlice = createSlice({
       state[action.payload].count++;
     },
     decrease: (state, action: PayloadAction<CartItem['id']>) => {
-      state[action.payload].count--;
+      if (state[action.payload].count > 1) {
+        state[action.payload].count--;
+      } else {
+        delete state[action.payload];
+      }
     },
 
     change: (state, action: PayloadAction<CartItem>) => {
