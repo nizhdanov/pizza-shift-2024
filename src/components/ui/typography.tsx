@@ -1,14 +1,15 @@
+import { type ComponentProps } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils/cn';
 
-const typographyVariants = cva('', {
+export const typographyVariants = cva('', {
   variants: {
     variant: {
-      '12-regular': 'text-xs font-normal',
-      '14-regular': 'text-sm font-normal',
+      '12-regular': 'text-xs font-regular',
+      '14-regular': 'text-sm font-regular',
       '14-medium': 'text-sm font-medium',
-      '16-regular': 'text-base font-normal',
+      '16-regular': 'text-base font-regular',
       '16-medium': 'text-base font-medium',
       '20-semi': 'text-xl font-semibold',
       '24-bold': 'text-2xl font-bold text-foreground'
@@ -25,7 +26,7 @@ export type TypographyProps<Tag extends TypographyTag> = React.ComponentProps<Ta
   children: React.ReactNode;
 } & VariantProps<typeof typographyVariants>;
 
-const Typography = <Tag extends TypographyTag = 'div'>({
+export const Typography = <Tag extends TypographyTag = 'div'>({
   variant,
   tag = 'div',
   children,
@@ -40,12 +41,10 @@ const Typography = <Tag extends TypographyTag = 'div'>({
   );
 };
 
-type SpanProps = React.ComponentProps<'span'> & VariantProps<typeof typographyVariants>;
+type SpanProps = ComponentProps<'span'> & VariantProps<typeof typographyVariants>;
 
-const Span = ({ variant, children, className, ...props }: SpanProps) => (
+export const Span = ({ variant, children, className, ...props }: SpanProps) => (
   <span className={cn(typographyVariants({ variant, className }))} {...props}>
     {children}
   </span>
 );
-
-export { Span, Typography, typographyVariants };

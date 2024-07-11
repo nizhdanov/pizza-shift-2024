@@ -32,6 +32,17 @@
 }
 
 @layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-display: swap;
+    src: url(./fonts/Inter-Variable.ttf) format('truetype');
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
   * {
     @apply border-border;
   }

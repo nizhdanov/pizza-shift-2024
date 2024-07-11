@@ -1,16 +1,17 @@
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { configureStore, createSelector } from '@reduxjs/toolkit';
 
-import { cartSlice } from '@modules/cart';
-import { pizzaApi, pizzaSlice } from '@modules/pizza';
+import { api } from './modules/api';
+import { cartSlice } from './modules/cart';
+import { selectedItemSlice } from './modules/selectedItem';
 
 export const store = configureStore({
   reducer: {
-    [pizzaApi.reducerPath]: pizzaApi.reducer,
-    [pizzaSlice.name]: pizzaSlice.reducer,
-    [cartSlice.name]: cartSlice.reducer
+    [api.reducerPath]: api.reducer,
+    [cartSlice.name]: cartSlice.reducer,
+    [selectedItemSlice.name]: selectedItemSlice.reducer
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(pizzaApi.middleware)
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware)
 });
 
 export type AppState = ReturnType<typeof store.getState>;

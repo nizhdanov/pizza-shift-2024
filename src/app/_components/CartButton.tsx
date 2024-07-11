@@ -8,9 +8,10 @@ import { cartSlice } from '@modules/cart';
 
 export const CartButton = () => {
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector(cartSlice.selectors.selectCartItems);
+  const cart = useAppSelector(cartSlice.selectors.cartItems);
+  const totalCount = useAppSelector(cartSlice.selectors.totalCount);
 
-  const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
+  // const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
 
   if (isDesktop) return;
   if (cart.length <= 0) return;

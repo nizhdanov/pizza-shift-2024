@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Dialog, DialogDescription, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
 import {
   ClockIcon,
   LogInIcon,
@@ -13,7 +14,7 @@ import { PATHS } from '@/lib/constants/paths';
 import { useAppSelector } from '@/lib/store';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { buttonVariants } from '@ui/button';
-import { Sheet, SheetBody, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@ui/sheet';
+import { SheetBody, SheetContent, SheetHeader } from '@ui/dialog';
 import { Span } from '@ui/typography';
 import { cn } from '@utils/cn';
 import { FullLogoIcon } from '@icons/FullLogoIcon';
@@ -22,9 +23,7 @@ import { cartSlice } from '@modules/cart';
 export const Header = () => {
   const isAuth = false;
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector(cartSlice.selectors.selectCartItems);
-
-  const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
+  const totalCount = useAppSelector(cartSlice.selectors.totalCount);
 
   return (
     <>
@@ -109,13 +108,14 @@ export const Header = () => {
         )}
 
         {!isDesktop && (
-          <Sheet>
-            <SheetTrigger>
+          <Dialog>
+            <DialogTrigger>
               <MenuIcon />
-            </SheetTrigger>
+            </DialogTrigger>
             <SheetContent>
               <SheetHeader action='close' className='flex-row-reverse'>
-                <SheetTitle className='sr-only'>Меню</SheetTitle>
+                <DialogTitle className='sr-only'>Меню</DialogTitle>
+                <DialogDescription className='sr-only'>Меню</DialogDescription>
               </SheetHeader>
               <SheetBody className='items-start gap-2'>
                 {isAuth && (
@@ -172,7 +172,7 @@ export const Header = () => {
                 )}
               </SheetBody>
             </SheetContent>
-          </Sheet>
+          </Dialog>
         )}
       </header>
       <hr className='h-px bg-border' />

@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { PizzasPage } from '@/routes';
-import { CartPage } from '@/routes/cart';
-import { Root } from '@/routes/root';
+import { PizzasPage } from '@/app';
+import { CartPage } from '@/app/cart';
+import { RootLayout } from '@/app/root-layout';
 import { pizzaApi } from '@modules/pizza';
 
 import { PATHS } from './constants/paths';
@@ -11,7 +11,7 @@ import { store } from './store';
 export const router = createBrowserRouter([
   {
     path: PATHS.index,
-    element: <Root />,
+    element: <RootLayout />,
     children: [
       {
         index: true,

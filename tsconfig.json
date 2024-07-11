@@ -23,6 +23,7 @@
     /* Alliases */
     "baseUrl": ".",
     "paths": {
+      "@constants/*": ["src/lib/constants/*"],
       "@modules/*": ["src/lib/modules/*"],
       "@hooks/*": ["src/lib/hooks/*"],
       "@utils/*": ["src/lib/utils/*"],

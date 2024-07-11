@@ -19,45 +19,60 @@ interface Pizza {
   img: string;
 }
 
+type PizzaIngredientEnum =
+  | 'PINEAPPLE'
+  | 'MOZZARELLA'
+  | 'PEPERONI'
+  | 'GREEN_PEPPER'
+  | 'MUSHROOMS'
+  | 'BASIL'
+  | 'CHEDDAR'
+  | 'PARMESAN'
+  | 'FETA'
+  | 'HAM'
+  | 'PICKLE'
+  | 'TOMATO'
+  | 'BACON'
+  | 'ONION'
+  | 'CHILE'
+  | 'SHRIMPS'
+  | 'CHICKEN_FILLET'
+  | 'MEATBALLS';
+
 interface PizzaIngredient {
-  name:
-    | 'PINEAPPLE'
-    | 'MOZZARELLA'
-    | 'PEPERONI'
-    | 'GREEN_PEPPER'
-    | 'MUSHROOMS'
-    | 'BASIL'
-    | 'CHEDDAR'
-    | 'PARMESAN'
-    | 'FETA'
-    | 'HAM'
-    | 'PICKLE'
-    | 'TOMATO'
-    | 'BACON'
-    | 'ONION'
-    | 'CHILE'
-    | 'SHRIMPS'
-    | 'CHICKEN_FILLET'
-    | 'MEATBALLS';
+  name: PizzaIngredientEnum;
   cost: number;
   img: string;
 }
 
+type PizzaSizeEnum = 'SMALL' | 'MEDIUM' | 'LARGE';
+
 interface PizzaSize {
-  name: 'SMALL' | 'MEDIUM' | 'LARGE';
+  name: PizzaSizeEnum;
   price: number;
 }
 
+type PizzaDoughEnum = 'THIN' | 'THICK';
+
 interface PizzaDough {
-  name: 'THIN' | 'THICK';
+  name: PizzaDoughEnum;
   price: number;
 }
 
 interface CartPizza {
   id: string;
   name: string;
-  toppings: PizzaIngredient[];
   description: string;
+  toppings: PizzaIngredient[];
   size: PizzaSize;
   doughs: PizzaDough;
+}
+
+interface CartItem {
+  value: Pizza;
+  size: PizzaSize;
+  doughs: PizzaDough;
+  toppings: PizzaIngredient[];
+  count: number;
+  uid: number;
 }

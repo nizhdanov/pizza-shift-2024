@@ -1,21 +1,21 @@
-export const sizeMap = {
+export const SIZE_MAP = {
   SMALL: 'Маленькая',
   MEDIUM: 'Средняя',
   LARGE: 'Большая'
 } as const;
 
-export const cmMap = {
+export const CM_MAP = {
   SMALL: '25',
   MEDIUM: '30',
   LARGE: '35'
 } as const;
 
-export const doughMap = {
+export const DOUGH_MAP = {
   THIN: 'Тонкое',
   THICK: 'Традиционное'
 } as const;
 
-export const toppingMap = {
+export const TOPPING_MAP = {
   PINEAPPLE: 'Ананас',
   GREEN_PEPPER: 'Зеленый перец',
   MUSHROOMS: 'Грибы',

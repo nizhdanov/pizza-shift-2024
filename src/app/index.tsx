@@ -1,7 +1,7 @@
-import { PizzaCard } from '@/components/PizzaCard';
 import { useGetPizzaCatalogQuery } from '@modules/pizza';
 
 import { CartButton } from './_components/CartButton';
+import { PizzaCard } from './_components/PizzaCard';
 
 export const PizzasPage = () => {
   const pizzaCatalogQuery = useGetPizzaCatalogQuery();
