@@ -25,6 +25,23 @@ export const cartSlice = createSlice({
               calculatePizzaPrice(size, doughs, toppings) * count
           )
           .reduce((a, b) => a + b, 0)
+    ),
+    cartPizzas: createSelector(
+      (state: typeof initialState) => state,
+      (cart) => {
+        const cartItems = Object.values(cart);
+        return cartItems.map(
+          (item) =>
+            ({
+              description: item.value.description,
+              doughs: item.doughs,
+              id: item.value.id,
+              name: item.value.name,
+              size: item.size,
+              toppings: item.toppings
+            }) as CartPizza
+        );
+      }
     )
   },
   reducers: {

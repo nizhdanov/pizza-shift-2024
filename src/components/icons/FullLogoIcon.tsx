@@ -1,4 +1,6 @@
-export const FullLogoIcon = (props: React.ComponentProps<'svg'>) => (
+import { ComponentProps } from 'react';
+
+export const FullLogoIcon = (props: ComponentProps<'svg'>) => (
   <svg
     width='76'
     height='39'

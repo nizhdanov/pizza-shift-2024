@@ -1,29 +1,5 @@
 import { api } from '@modules/api';
 
-interface PizzaCatalogResponse extends BaseResponse {
-  catalog: Pizza[];
-}
-
-interface PizzaPaymentDto {
-  receiverAddress: ReceiverAddress;
-  person: Person;
-  debitCard: {
-    pan: string;
-    expireDate: string;
-    cvv: string;
-  };
-  pizzas: CartPizza[];
-}
-
-interface PizzaPaymentResponse extends BaseResponse {
-  order: {
-    receiverAddress: ReceiverAddress;
-    person: Person;
-    status: 0 | 1 | 2 | 3 | 4;
-    cancellable: boolean;
-  };
-}
-
 export const pizzaApi = api.injectEndpoints({
   endpoints: (build) => ({
     getPizzaCatalog: build.query<PizzaCatalogResponse, void>({
@@ -45,4 +21,4 @@ export const pizzaApi = api.injectEndpoints({
   })
 });
 
-export const { useGetPizzaCatalogQuery } = pizzaApi;
+export const { useGetPizzaCatalogQuery, usePostPizzaPaymentMutation } = pizzaApi;

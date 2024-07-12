@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { PizzasPage } from '@/app';
 import { CartPage } from '@/app/cart';
+import { PaymentPage } from '@/app/payment';
 import { RootLayout } from '@/app/root-layout';
 import { pizzaApi } from '@modules/pizza';
 
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: PATHS.cart,
         element: <CartPage />
+      },
+      {
+        path: PATHS.payment,
+        element: <PaymentPage />
       }
     ]
   }

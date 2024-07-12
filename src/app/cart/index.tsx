@@ -5,6 +5,7 @@ import { XIcon } from 'lucide-react';
 
 import { CM_MAP, DOUGH_MAP, SIZE_MAP, TOPPING_MAP } from '@/lib/constants/map';
 import { useIsDesktop } from '@hooks/useIsDesktop';
+import { buttonVariants } from '@ui/button';
 import { Span, Typography, typographyVariants } from '@ui/typography';
 import { calculatePizzaPrice } from '@utils/calculatePizzaPrice';
 
@@ -80,7 +81,7 @@ export const CartPage = () => {
       {!isDesktop && (
         <div className='fixed inset-x-0 bottom-0 flex flex-col gap-4 rounded-t-lg bg-background p-4 shadow-[0px_-6px_30px_0px_rgba(0,0,0,0.1)]'>
           <Span variant='16-medium'>Стоимость заказа: {totalPrice} ₽</Span>
-          <Link to={PATHS.payment} className='w-full'>
+          <Link to={PATHS.payment} className={buttonVariants({ className: 'w-full' })}>
             Оформить заказ
           </Link>
         </div>
@@ -90,9 +91,9 @@ export const CartPage = () => {
         <>
           <hr className='h-px bg-border' />
 
-          <div className='flex items-center justify-between gap-4 bg-background'>
+          <div className='flex items-center justify-between'>
             <Span variant='16-medium'>Стоимость заказа: {totalPrice} ₽</Span>
-            <Link to={PATHS.payment} className='w-[328px]'>
+            <Link to={PATHS.payment} className={buttonVariants({ className: 'w-[328px]' })}>
               Оформить заказ
             </Link>
           </div>
