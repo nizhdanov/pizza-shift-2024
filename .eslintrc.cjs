@@ -1,10 +1,16 @@
 module.exports = {
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   root: true,
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:prettier/recommended',
+    'plugin:react/jsx-runtime',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended'
   ],
@@ -35,7 +41,8 @@ module.exports = {
             '^@ui?\\w',
             '^@utils?\\w',
             '^@icons?\\w',
-            '^@modules?\\w'
+            '^@modules?\\w',
+            '^@constants?\\w'
           ],
           // Side effect imports:
           ['^\\u0000'],

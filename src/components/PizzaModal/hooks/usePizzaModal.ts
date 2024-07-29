@@ -1,58 +1,67 @@
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { cartSlice } from '@modules/cart';
-import { selectedItemSlice } from '@modules/selectedItem';
+import { useAppDispatch, useAppSelector } from '@/lib/redux';
+import { add, update } from '@modules/cart';
+import { useGetPizzaByIdResult } from '@modules/pizza';
+import {
+  chooseDough,
+  chooseSize,
+  chooseTopping,
+  clear,
+  selectDoughs,
+  selectPizzaId,
+  selectSize,
+  selectToppings,
+  selectUid
+} from '@modules/selectedItem';
 
 export const usePizzaModal = () => {
   const dispatch = useAppDispatch();
 
-  const open = useAppSelector(selectedItemSlice.selectors.selectIsOpened);
-  const pizza = useAppSelector((state) => state.selectedItem.value);
-  const uid = useAppSelector((state) => state.selectedItem.uid);
-  const count = useAppSelector((state) => state.selectedItem.count);
-  const selectedSize = useAppSelector((state) => state.selectedItem.size);
-  const selectedDough = useAppSelector((state) => state.selectedItem.doughs);
-  const selectedToppings = useAppSelector((state) => state.selectedItem.toppings);
+  const uid = useAppSelector(selectUid);
+  const selectedPizzaId = useAppSelector(selectPizzaId);
+  const selectedSize = useAppSelector(selectSize);
+  const selectedDough = useAppSelector(selectDoughs);
+  const selectedToppings = useAppSelector(selectToppings);
 
-  const clear = () => {
-    dispatch(selectedItemSlice.actions.clear());
+  const { pizza } = useGetPizzaByIdResult(selectedPizzaId!);
+
+  const open = !!selectedPizzaId;
+
+  const changeSize = (size: PizzaSize) => {
+    dispatch(chooseSize(size));
+  };
+  const changeDough = (dough: PizzaDough) => {
+    dispatch(chooseDough(dough));
+  };
+  const changeTopping = (topping: PizzaIngredient) => {
+    dispatch(chooseTopping(topping));
   };
 
-  const selectSize = (size: PizzaSize) => {
-    dispatch(selectedItemSlice.actions.selectSize(size));
+  const onClose = () => {
+    dispatch(clear());
   };
 
-  const selectDough = (dough: PizzaDough) => {
-    dispatch(selectedItemSlice.actions.selectDough(dough));
+  const updateItem = () => {
+    dispatch(update());
+    onClose();
   };
 
-  const selectTopping = (topping: PizzaIngredient) => {
-    dispatch(selectedItemSlice.actions.selectTopping(topping));
-  };
-
-  const addToCart = () => {
-    dispatch(
-      cartSlice.actions.add({
-        value: pizza,
-        count: count === 0 ? 1 : count,
-        doughs: selectedDough,
-        size: selectedSize,
-        toppings: selectedToppings,
-        uid: uid
-      })
-    );
-    clear();
+  const addItem = () => {
+    dispatch(add());
+    onClose();
   };
 
   return {
-    open,
-    clear,
-    addToCart,
-    selectSize,
-    selectDough,
-    selectTopping,
     pizza,
+    uid,
+    open,
+    onClose,
+    changeSize,
+    changeDough,
+    changeTopping,
     selectedToppings,
     selectedDough,
-    selectedSize
+    selectedSize,
+    updateItem,
+    addItem
   };
 };

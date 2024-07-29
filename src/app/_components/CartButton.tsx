@@ -2,16 +2,14 @@ import { Link } from 'react-router-dom';
 import { ShoppingCartIcon } from 'lucide-react';
 
 import { PATHS } from '@/lib/constants/paths';
-import { useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux';
 import { useIsDesktop } from '@hooks/useIsDesktop';
-import { cartSlice } from '@modules/cart';
+import { selectCartItems, selectTotalCount } from '@modules/cart';
 
 export const CartButton = () => {
   const isDesktop = useIsDesktop();
-  const cart = useAppSelector(cartSlice.selectors.cartItems);
-  const totalCount = useAppSelector(cartSlice.selectors.totalCount);
-
-  // const totalCount = cart.reduce((acc, curr) => acc + curr.count, 0);
+  const cart = useAppSelector(selectCartItems);
+  const totalCount = useAppSelector(selectTotalCount);
 
   if (isDesktop) return;
   if (cart.length <= 0) return;

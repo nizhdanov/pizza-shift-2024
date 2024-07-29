@@ -1,30 +1,29 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createAppSlice } from '../redux';
 
-interface InitialState {
-  receiverAddress: PersonAddress;
-  person: Person;
-  debitCard: DebitCard;
-}
-
-const initialState: InitialState = {
-  receiverAddress: {} as PersonAddress,
-  person: {} as Person,
+const initialState = {
+  person: {} as PersonalData,
   debitCard: {} as DebitCard
 };
 
-export const userSlice = createSlice({
+export const userSlice = createAppSlice({
   name: 'user',
   initialState,
-  selectors: {},
-  reducers: {
-    fillPerson: (state, { payload }: PayloadAction<Person>) => {
-      state.person = payload;
-    },
-    fillReceiverAddress: (state, { payload }: PayloadAction<PersonAddress>) => {
-      state.receiverAddress = payload;
-    },
-    fillDebitCard: (state, { payload }: PayloadAction<DebitCard>) => {
-      state.debitCard = payload;
-    }
+  selectors: {
+    selectPerson: (state) => state.person
+  },
+  reducers: (create) => {
+    return {
+      fillPerson: create.reducer<PersonalData>((state, { payload }) => {
+        state.person = payload;
+      }),
+
+      fillDebitCard: create.reducer<DebitCard>((state, { payload }) => {
+        state.debitCard = payload;
+      })
+    };
   }
 });
+
+export const { selectPerson } = userSlice.selectors;
+
+export const { fillDebitCard, fillPerson } = userSlice.actions;

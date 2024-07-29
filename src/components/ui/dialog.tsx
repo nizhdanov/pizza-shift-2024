@@ -5,10 +5,14 @@ import {
   type HTMLAttributes
 } from 'react';
 import {
+  Description,
   DialogClose,
   DialogContent,
-  DialogOverlay as RadixDialogOverlay,
-  DialogPortal
+  DialogPortal,
+  Overlay,
+  Root,
+  Title,
+  Trigger
 } from '@radix-ui/react-dialog';
 import {} from '@radix-ui/react-dialog';
 import { cva, type VariantProps } from 'class-variance-authority';
@@ -16,11 +20,16 @@ import { ChevronLeftIcon, XIcon } from 'lucide-react';
 
 import { cn } from '@utils/cn';
 
+export const Dialog = Root;
+export const DialogDescription = Description;
+export const DialogTitle = Title;
+export const DialogTrigger = Trigger;
+
 export const DialogOverlay = forwardRef<
-  ElementRef<typeof RadixDialogOverlay>,
-  ComponentPropsWithoutRef<typeof RadixDialogOverlay>
+  ElementRef<typeof Overlay>,
+  ComponentPropsWithoutRef<typeof Overlay>
 >(({ className, ...props }, ref) => (
-  <RadixDialogOverlay
+  <Overlay
     ref={ref}
     className={cn(
       'fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
@@ -105,7 +114,11 @@ export const SheetHeader = ({
 }) => (
   <>
     <div
-      className={cn('flex h-14 flex-none items-center justify-between px-4', className)}
+      className={cn(
+        'flex h-14 flex-none items-center justify-between px-4',
+        action === 'back' ? 'flex' : 'flex-row-reverse',
+        className
+      )}
       {...props}
     >
       <DialogClose className='size-6 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary'>

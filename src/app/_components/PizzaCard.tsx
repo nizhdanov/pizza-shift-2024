@@ -1,10 +1,9 @@
-import { BASE_URL } from '@constants/baseUrl';
-
-import { useAppDispatch } from '@/lib/store';
+import { useAppDispatch } from '@/lib/redux';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { Button } from '@ui/button';
 import { Span, Typography } from '@ui/typography';
-import { selectedItemSlice } from '@modules/selectedItem';
+import { choosePizza } from '@modules/selectedItem';
+import { BASE_URL } from '@constants/baseUrl';
 
 interface PizzaCardProps {
   pizza: Pizza;
@@ -15,7 +14,7 @@ export const PizzaCard = ({ pizza }: PizzaCardProps) => {
   const dispatch = useAppDispatch();
 
   const openModal = () => {
-    dispatch(selectedItemSlice.actions.selectFromPage(pizza));
+    dispatch(choosePizza(pizza.id));
   };
 
   return (

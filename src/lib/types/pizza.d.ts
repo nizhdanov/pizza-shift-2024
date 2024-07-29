@@ -59,20 +59,17 @@ interface PizzaDough {
   price: number;
 }
 
-interface CartPizza {
-  id: string;
-  name: string;
-  description: string;
-  toppings: PizzaIngredient[];
+// App types
+
+interface SelectedPizza {
+  pizzaId: string;
   size: PizzaSize;
   doughs: PizzaDough;
+  toppings: PizzaIngredient[];
+  uid: string | undefined;
 }
 
-interface CartItem {
-  value: Pizza;
-  size: PizzaSize;
-  doughs: PizzaDough;
-  toppings: PizzaIngredient[];
+interface CartItem extends SelectedPizza {
+  uid: string;
   count: number;
-  uid: number;
 }

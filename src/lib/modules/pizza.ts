@@ -1,24 +1,42 @@
-import { api } from '@modules/api';
+import { baseApi } from '../redux';
 
-export const pizzaApi = api.injectEndpoints({
+export const pizzaApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getPizzaCatalog: build.query<PizzaCatalogResponse, void>({
-      query: () => `pizza/catalog`
+      query: () => ({
+        url: 'pizza/catalog',
+        method: 'GET'
+      })
     }),
     postPizzaPayment: build.mutation<PizzaPaymentResponse, PizzaPaymentDto>({
       query: (dto) => ({
-        url: `pizza/payment`,
+        url: 'pizza/payment',
         method: 'POST',
         body: dto
       })
     }),
     getPizzaOrders: build.query<PizzaCatalogResponse, void>({
-      query: () => `pizza/orders`
+      query: () => ({
+        url: 'pizza/orders',
+        method: 'GET'
+      })
     }),
     getPizzaOrderById: build.query<PizzaCatalogResponse, string>({
-      query: (orderId) => `pizza/orders/${orderId}`
+      query: (orderId) => ({
+        url: `pizza/orders/${orderId}`,
+        method: 'GET'
+      })
     })
   })
 });
 
 export const { useGetPizzaCatalogQuery, usePostPizzaPaymentMutation } = pizzaApi;
+
+export const useGetPizzaByIdResult = (pizzaId: string) =>
+  useGetPizzaCatalogQuery(undefined, {
+    selectFromResult: ({ data }) => ({
+      pizza: data?.catalog.find((pizza) => pizza.id === pizzaId)
+    })
+  });
+
+export const selectPizzaCatalogResult = pizzaApi.endpoints.getPizzaCatalog.select();

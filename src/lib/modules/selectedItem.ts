@@ -1,62 +1,84 @@
-import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createAppSlice } from '../redux';
 
-const initialState: CartItem = {
-  value: {} as Pizza,
-  count: 0,
+import { selectPizzaCatalogResult } from './pizza';
+
+const initialState: SelectedPizza = {
+  pizzaId: undefined as unknown as string,
   size: {} as PizzaSize,
   doughs: {} as PizzaDough,
-  toppings: [],
-  uid: 0
+  toppings: [] as PizzaIngredient[],
+  uid: undefined
 };
 
-export const selectedItemSlice = createSlice({
+export const selectedItemSlice = createAppSlice({
   name: 'selectedItem',
   initialState,
   selectors: {
-    selectIsOpened: createSelector(
-      (state: typeof initialState) => state.value.id,
-      (id) => id !== undefined && id !== null
-    )
+    selectUid: (state) => state.uid,
+    selectPizzaId: (state) => state.pizzaId,
+    selectSize: (state) => state.size,
+    selectDoughs: (state) => state.doughs,
+    selectToppings: (state) => state.toppings
   },
-  reducers: {
-    selectFromPage: (state, { payload }: PayloadAction<Pizza>) => {
-      state.value = payload;
-      state.count = 1;
-      state.size = payload.sizes[1];
-      state.doughs = payload.doughs[0];
-      state.toppings = [];
-      state.uid = Date.now();
-    },
-    selectFromCart: (state, { payload }: PayloadAction<CartItem>) => {
-      state.value = payload.value;
-      state.count = payload.count;
-      state.size = payload.size;
-      state.doughs = payload.doughs;
-      state.toppings = payload.toppings;
-      state.uid = payload.uid;
-    },
 
-    selectSize: (state, { payload }: PayloadAction<PizzaSize>) => {
-      state.size = payload;
-    },
-    selectDough: (state, { payload }: PayloadAction<PizzaDough>) => {
-      state.doughs = payload;
-    },
-    selectTopping: (state, { payload }: PayloadAction<PizzaIngredient>) => {
-      if (state.toppings.map((topping) => topping.name).includes(payload.name)) {
-        state.toppings = state.toppings.filter((topping) => topping.name !== payload.name);
-      } else {
-        state.toppings.push(payload);
-      }
-    },
+  reducers: (create) => {
+    return {
+      choosePizza: create.asyncThunk<Pizza, string>(
+        (id, thunkApi) => {
+          const state = thunkApi.getState() as RootState;
+          const pizza = selectPizzaCatalogResult(state);
+          return pizza?.data?.catalog.find((pizza) => pizza.id === id) as Pizza;
+        },
+        {
+          fulfilled: (state, action) => {
+            state.pizzaId = action.payload.id;
+            state.doughs = action.payload.doughs[0];
+            state.size = action.payload.sizes[1];
+          }
+        }
+      ),
 
-    clear: (state) => {
-      state.count = initialState.count;
-      state.doughs = initialState.doughs;
-      state.size = initialState.size;
-      state.toppings = initialState.toppings;
-      state.value = initialState.value;
-      state.uid = initialState.uid;
-    }
+      chooseCartPizza: create.asyncThunk<CartItem, string>(
+        (uid, thunkApi) => {
+          const state = thunkApi.getState() as RootState;
+
+          const item = JSON.parse(JSON.stringify(state.cart.find((item) => item.uid === uid)));
+          return item as CartItem;
+        },
+        {
+          fulfilled: (state, { payload }) => {
+            state.uid = payload.uid;
+            state.pizzaId = payload.pizzaId;
+            state.doughs = payload.doughs;
+            state.size = payload.size;
+            state.toppings = payload.toppings;
+          }
+        }
+      ),
+
+      chooseSize: create.reducer<PizzaSize>((state, { payload }) => {
+        state.size = payload;
+      }),
+
+      chooseDough: create.reducer<PizzaDough>((state, { payload }) => {
+        state.doughs = payload;
+      }),
+
+      chooseTopping: create.reducer<PizzaIngredient>((state, { payload }) => {
+        if (state.toppings.map((topping) => topping.name).includes(payload.name)) {
+          state.toppings = state.toppings.filter((topping) => topping.name !== payload.name);
+        } else {
+          state.toppings.push(payload);
+        }
+      }),
+
+      clear: create.reducer(() => initialState)
+    };
   }
 });
+
+export const { selectDoughs, selectSize, selectToppings, selectPizzaId, selectUid } =
+  selectedItemSlice.selectors;
+
+export const { choosePizza, chooseCartPizza, chooseDough, chooseSize, chooseTopping, clear } =
+  selectedItemSlice.actions;

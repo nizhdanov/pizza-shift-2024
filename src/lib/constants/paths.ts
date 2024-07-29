@@ -3,7 +3,6 @@ export const PATHS = {
   cart: '/cart',
   payment: '/payment',
   signin: '/signin',
-  signup: '/signup',
   profile: '/profile',
   orders: '/orders'
 } as const;

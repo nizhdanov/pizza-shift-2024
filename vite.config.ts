@@ -16,6 +16,5 @@ export default defineConfig({
       '@constants': path.resolve(__dirname, './src/lib/constants')
     }
   },
-
-  envPrefix: ['VITE_', 'DADATA_']
+  envPrefix: ['VITE_', 'DADATA_', 'BASE_']
 });

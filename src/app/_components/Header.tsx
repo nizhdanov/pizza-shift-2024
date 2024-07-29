@@ -1,29 +1,38 @@
 import { Link } from 'react-router-dom';
-import { Dialog, DialogDescription, DialogTitle, DialogTrigger } from '@radix-ui/react-dialog';
 import {
   ClockIcon,
   LogInIcon,
   LogOutIcon,
-  MapPinIcon,
   MenuIcon,
   ShoppingCartIcon,
   UserRoundIcon
 } from 'lucide-react';
 
 import { PATHS } from '@/lib/constants/paths';
-import { useAppSelector } from '@/lib/store';
+import { useAppSelector } from '@/lib/redux';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { buttonVariants } from '@ui/button';
-import { SheetBody, SheetContent, SheetHeader } from '@ui/dialog';
+import {
+  Dialog,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+  SheetBody,
+  SheetContent,
+  SheetHeader
+} from '@ui/dialog';
 import { Span } from '@ui/typography';
 import { cn } from '@utils/cn';
 import { FullLogoIcon } from '@icons/FullLogoIcon';
-import { cartSlice } from '@modules/cart';
+import { selectTotalCount } from '@modules/cart';
+
+// TODO
 
 export const Header = () => {
-  const isAuth = false;
   const isDesktop = useIsDesktop();
-  const totalCount = useAppSelector(cartSlice.selectors.totalCount);
+
+  const isAuth = false;
+  const totalCount = useAppSelector(selectTotalCount);
 
   return (
     <>
@@ -33,12 +42,12 @@ export const Header = () => {
             <FullLogoIcon />
           </Link>
 
-          <div className='mx-8 flex items-center'>
+          {/* <div className='mx-8 flex items-center'>
             <MapPinIcon className='mr-2 size-4' />
             <Span variant='12-regular' color='body-primary'>
               Санкт-Петербург
             </Span>
-          </div>
+          </div> */}
         </div>
 
         {isDesktop && (
@@ -113,7 +122,7 @@ export const Header = () => {
               <MenuIcon />
             </DialogTrigger>
             <SheetContent>
-              <SheetHeader action='close' className='flex-row-reverse'>
+              <SheetHeader action='close'>
                 <DialogTitle className='sr-only'>Меню</DialogTitle>
                 <DialogDescription className='sr-only'>Меню</DialogDescription>
               </SheetHeader>

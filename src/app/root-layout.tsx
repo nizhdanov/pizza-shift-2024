@@ -1,19 +1,27 @@
+import { lazy, Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { PizzaModal } from '@/components/PizzaModal';
-import { useAppSelector } from '@/lib/store';
-import { selectedItemSlice } from '@modules/selectedItem';
+import { useAppSelector } from '@/lib/redux';
+import { selectPizzaId } from '@modules/selectedItem';
 
 import { Header } from './_components/Header';
 
+const PizzaModal = lazy(() =>
+  import('@/components/PizzaModal').then((module) => ({ default: module.PizzaModal }))
+);
+
 export const RootLayout = () => {
-  const open = useAppSelector(selectedItemSlice.selectors.selectIsOpened);
+  const selectedPizzaId = useAppSelector(selectPizzaId);
 
   return (
     <>
       <Header />
       <Outlet />
-      {open && <PizzaModal />}
+      {!!selectedPizzaId && (
+        <Suspense fallback={<div className='h-svh w-[200px] bg-white'></div>}>
+          <PizzaModal />
+        </Suspense>
+      )}
     </>
   );
 };

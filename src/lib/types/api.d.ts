@@ -3,14 +3,25 @@ interface BaseResponse {
   reason?: string;
 }
 
-type PostAddressSuggestionsResponse = {
-  value: string;
-  unrestricted_value: string;
-  data: Record<string, string | null>;
-}[];
+interface CreateOtpDto {
+  phone: string;
+}
+
+interface AuthOtpResponse extends BaseResponse {
+  retryDelay: number;
+}
 
 interface PizzaCatalogResponse extends BaseResponse {
   catalog: Pizza[];
+}
+
+interface CartPizza {
+  id: string;
+  name: string;
+  description: string;
+  toppings: PizzaIngredient[];
+  size: PizzaSize;
+  doughs: PizzaDough;
 }
 
 interface PizzaPaymentDto {
@@ -27,4 +38,17 @@ interface PizzaPaymentResponse extends BaseResponse {
     status: 0 | 1 | 2 | 3 | 4;
     cancellable: boolean;
   };
+}
+
+interface PostAddressSuggestionsResponse {
+  suggestions: {
+    value: string;
+    unrestricted_value: string;
+    data: {
+      city: string | null;
+      street: string | null;
+      house: string | null;
+      flat: string | null;
+    } & Record<string, string | null>;
+  }[];
 }

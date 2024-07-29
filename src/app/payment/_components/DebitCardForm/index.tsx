@@ -1,72 +1,43 @@
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { ChevronLeftIcon } from 'lucide-react';
 
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { useAppSelector } from '@/lib/store';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@ui/button';
-import { Input } from '@ui/input';
+import { CardExpiryInput, PatternInput } from '@ui/input';
 import { Typography } from '@ui/typography';
-import { cartSlice } from '@modules/cart';
-import { usePostPizzaPaymentMutation } from '@modules/pizza';
 
-import { PaymentResponseModal } from '../PaymentResponseModal';
+import { PaymentResultModal } from '../PaymentResultModal';
 
-const debitCardSchema = z.object({
-  pan: z.string(),
-  expireDate: z.string(),
-  cvv: z.string()
-});
+import { useDebitCardForm } from './hooks/useDebitCardForm';
 
 export const DebitCardForm = () => {
-  const form = useForm<z.infer<typeof debitCardSchema>>({
-    resolver: zodResolver(debitCardSchema),
-    defaultValues: {
-      cvv: '111',
-      expireDate: '11/11',
-      pan: '1111 1111'
-    }
-  });
-
-  const person = useAppSelector((state) => state.user.person);
-  const receiverAddress = useAppSelector((state) => state.user.receiverAddress);
-  const pizzas = useAppSelector(cartSlice.selectors.cartPizzas);
-
-  const [postPizzaPayment] = usePostPizzaPaymentMutation();
-
-  const onSubmit = async (data: z.infer<typeof debitCardSchema>) => {
-    const response = await postPizzaPayment({
-      debitCard: data,
-      receiverAddress: {
-        apartment: receiverAddress.apartment,
-        house: receiverAddress.house,
-        street: receiverAddress.street,
-        comment: receiverAddress.comment ?? ''
-      },
-      person,
-      pizzas
-    });
-
-    console.log(response);
-  };
+  const { form, paymentResult, onSubmit, back } = useDebitCardForm();
 
   return (
     <>
-      <PaymentResponseModal />
-      <Typography tag='h2' variant='24-bold'>
-        Введите данные карты для оплаты
-      </Typography>
+      {paymentResult && <PaymentResultModal />}
+      <div className='flex items-center gap-2'>
+        <Button onClick={back} variant='ghost' size='icon'>
+          <ChevronLeftIcon />
+        </Button>
+        <Typography tag='h2' variant='24-bold'>
+          Введите данные карты для оплаты
+        </Typography>
+      </div>
+
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='w-full max-w-[382px] space-y-6'>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className='flex w-full max-w-[382px] flex-col gap-4'
+        >
           <div className='space-y-4 rounded-lg bg-muted p-6'>
             <FormField
               control={form.control}
               name='pan'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Номер*</FormLabel>
+                  <FormLabel>Номер карты</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <PatternInput format='#### ####' allowEmptyFormatting {...field} />
                   </FormControl>
                 </FormItem>
               )}
@@ -77,9 +48,9 @@ export const DebitCardForm = () => {
                 name='expireDate'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Срок*</FormLabel>
+                    <FormLabel>Месяц/Год</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <CardExpiryInput {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -91,7 +62,7 @@ export const DebitCardForm = () => {
                   <FormItem>
                     <FormLabel>CVV*</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <PatternInput format='####' allowEmptyFormatting {...field} />
                     </FormControl>
                   </FormItem>
                 )}
@@ -99,7 +70,7 @@ export const DebitCardForm = () => {
             </div>
           </div>
 
-          <Button type='submit' className='w-full'>
+          <Button disabled={!form.formState.isValid} type='submit' className='mt-6 w-full'>
             Оплатить
           </Button>
         </form>

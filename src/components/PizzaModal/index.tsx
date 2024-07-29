@@ -1,27 +1,33 @@
-import { BASE_URL } from '@constants/baseUrl';
-import { Dialog, DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 import { CircleCheckIcon } from 'lucide-react';
 
 import { CM_MAP, DOUGH_MAP, SIZE_MAP, TOPPING_MAP } from '@/lib/constants/map';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { Button } from '@ui/button';
-import { ModalContent, SheetContent, SheetHeader } from '@ui/dialog';
+import {
+  Dialog,
+  DialogDescription,
+  DialogTitle,
+  ModalContent,
+  SheetContent,
+  SheetHeader
+} from '@ui/dialog';
 import { Tabs, TabsList, TabsTrigger } from '@ui/tabs';
 import { Span, Typography } from '@ui/typography';
 import { calculatePizzaPrice } from '@utils/calculatePizzaPrice';
 import { cn } from '@utils/cn';
+import { BASE_URL } from '@constants/baseUrl';
 
 import { usePizzaModal } from './hooks/usePizzaModal';
 
 const PizzaModalContent = () => {
   const {
     pizza,
-    selectDough,
-    selectSize,
-    selectTopping,
     selectedDough,
     selectedSize,
-    selectedToppings
+    selectedToppings,
+    changeSize,
+    changeDough,
+    changeTopping
   } = usePizzaModal();
 
   return (
@@ -29,32 +35,32 @@ const PizzaModalContent = () => {
       <div className='flex flex-col gap-2'>
         <DialogTitle asChild>
           <Typography tag='h2' variant='24-bold'>
-            {pizza.name}
+            {pizza?.name}
           </Typography>
         </DialogTitle>
         <Span variant='14-regular'>{`${CM_MAP[selectedSize.name]} см, ${DOUGH_MAP[selectedDough.name].toLowerCase()} тесто`}</Span>
         <DialogDescription asChild>
           <Typography tag='p' variant='16-regular'>
-            {pizza.description}
+            {pizza?.description}
           </Typography>
         </DialogDescription>
       </div>
 
       <div className='flex flex-col gap-4'>
-        <Tabs defaultValue={pizza.sizes[1].name}>
+        <Tabs defaultValue={selectedSize.name}>
           <TabsList className='w-full'>
-            {pizza.sizes.map((size) => (
-              <TabsTrigger key={size.name} onClick={() => selectSize(size)} value={size.name}>
+            {pizza?.sizes.map((size) => (
+              <TabsTrigger key={size.name} onClick={() => changeSize(size)} value={size.name}>
                 {SIZE_MAP[size.name]}
               </TabsTrigger>
             ))}
           </TabsList>
         </Tabs>
 
-        <Tabs defaultValue={pizza.doughs[0].name}>
+        <Tabs defaultValue={selectedDough.name}>
           <TabsList className='w-full'>
-            {pizza.doughs.map((dough) => (
-              <TabsTrigger key={dough.name} onClick={() => selectDough(dough)} value={dough.name}>
+            {pizza?.doughs.map((dough) => (
+              <TabsTrigger key={dough.name} onClick={() => changeDough(dough)} value={dough.name}>
                 {DOUGH_MAP[dough.name]}
               </TabsTrigger>
             ))}
@@ -68,16 +74,17 @@ const PizzaModalContent = () => {
         </Typography>
 
         <ul className='grid grid-cols-3 gap-2 py-2'>
-          {pizza.toppings.map((topping) => (
+          {pizza?.toppings.map((topping) => (
             <li
               key={topping.name}
-              onClick={() => selectTopping(topping)}
+              onClick={() => changeTopping(topping)}
               className={cn(
                 'relative m-1 flex w-full cursor-pointer flex-col items-center gap-3 rounded-lg p-2 shadow-md',
-                selectedToppings.includes(topping) && 'outline outline-primary'
+                selectedToppings.map((topping) => topping.name).includes(topping.name) &&
+                  'outline outline-primary'
               )}
             >
-              {selectedToppings.includes(topping) && (
+              {selectedToppings.map((topping) => topping.name).includes(topping.name) && (
                 <CircleCheckIcon className='absolute right-1 top-1 size-6 text-primary' />
               )}
               <img
@@ -98,10 +105,19 @@ const PizzaModalContent = () => {
 };
 
 const PizzaModalButton = () => {
-  const { addToCart, selectedDough, selectedSize, selectedToppings } = usePizzaModal();
+  const { selectedDough, selectedSize, selectedToppings, uid, updateItem, addItem } =
+    usePizzaModal();
+
+  if (uid) {
+    return (
+      <Button className='w-full' onClick={updateItem}>
+        Сохранить
+      </Button>
+    );
+  }
 
   return (
-    <Button className='w-full' onClick={addToCart}>
+    <Button className='w-full' onClick={addItem}>
       В корзину за {calculatePizzaPrice(selectedSize, selectedDough, selectedToppings)} ₽
     </Button>
   );
@@ -110,17 +126,17 @@ const PizzaModalButton = () => {
 export const PizzaModal = () => {
   const isDesktop = useIsDesktop();
 
-  const { pizza, open, clear } = usePizzaModal();
+  const { pizza, open, onClose } = usePizzaModal();
 
   return (
-    <Dialog open={open} onOpenChange={clear}>
+    <Dialog open={open} onOpenChange={onClose}>
       {isDesktop && (
         <ModalContent className='max-w-max px-16'>
           <img
             width={220}
             height={220}
-            alt={pizza.name}
-            src={`${BASE_URL}${pizza.img}`}
+            alt={pizza?.name}
+            src={`${BASE_URL}${pizza?.img}`}
             className='size-[220px]'
           />
           <div className='flex w-full max-w-[436px] flex-col gap-6'>
@@ -135,8 +151,8 @@ export const PizzaModal = () => {
           <SheetHeader divider={false} />
           <div className='mb-[88px] flex flex-col gap-8 px-4'>
             <img
-              alt={pizza.name}
-              src={`${BASE_URL}${pizza.img}`}
+              alt={pizza?.name}
+              src={`${BASE_URL}${pizza?.img}`}
               className='size-[220px] self-center'
             />
             <PizzaModalContent key='pizza-modal-content' />

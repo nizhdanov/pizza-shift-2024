@@ -1,13 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { PizzasPage } from '@/app';
-import { CartPage } from '@/app/cart';
-import { PaymentPage } from '@/app/payment';
 import { RootLayout } from '@/app/root-layout';
-import { pizzaApi } from '@modules/pizza';
 
 import { PATHS } from './constants/paths';
-import { store } from './store';
 
 export const router = createBrowserRouter([
   {
@@ -16,26 +11,48 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <PizzasPage />,
-        loader: async () => {
-          const result = store.dispatch(pizzaApi.endpoints.getPizzaCatalog.initiate());
-          try {
-            const response = await result.unwrap();
-            return response;
-          } catch (error) {
-            console.error(error);
-          } finally {
-            result.unsubscribe();
-          }
+        async lazy() {
+          const { PizzasPage } = await import('@/app/index');
+          return {
+            Component: PizzasPage
+          };
         }
       },
       {
         path: PATHS.cart,
-        element: <CartPage />
+        async lazy() {
+          const { CartPage } = await import('@/app/cart');
+          return {
+            Component: CartPage
+          };
+        }
       },
       {
         path: PATHS.payment,
-        element: <PaymentPage />
+        async lazy() {
+          const { PaymentPage } = await import('@/app/payment');
+          return {
+            Component: PaymentPage
+          };
+        }
+      },
+      {
+        path: PATHS.orders,
+        async lazy() {
+          const { OrdersPage } = await import('@/app/orders');
+          return {
+            Component: OrdersPage
+          };
+        }
+      },
+      {
+        path: PATHS.signin,
+        async lazy() {
+          const { SignInPage } = await import('@/app/signin');
+          return {
+            Component: SignInPage
+          };
+        }
       }
     ]
   }

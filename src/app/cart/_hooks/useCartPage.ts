@@ -1,30 +1,34 @@
-import { useAppDispatch, useAppSelector } from '@/lib/store';
-import { cartSlice } from '@modules/cart';
-import { selectedItemSlice } from '@modules/selectedItem';
+import { useAppDispatch, useAppSelector } from '@/lib/redux';
+import { decrease, increase, remove, selectCartItems, selectTotalPrice } from '@modules/cart';
+import { useGetPizzaByIdResult } from '@modules/pizza';
+import { chooseCartPizza } from '@modules/selectedItem';
 
-export const useCartPage = () => {
+export const useCartPage = (pizzaId?: string) => {
   const dispatch = useAppDispatch();
 
-  const cart = useAppSelector(cartSlice.selectors.cartItems);
-  const totalPrice = useAppSelector(cartSlice.selectors.totalPrice);
+  const { pizza } = useGetPizzaByIdResult(pizzaId!);
 
-  const openModal = (cartItem: CartItem) => {
-    dispatch(selectedItemSlice.actions.selectFromCart(cartItem));
+  const cart = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectTotalPrice);
+
+  const openModal = (uid: string) => {
+    dispatch(chooseCartPizza(uid));
   };
 
-  const decreaseCount = (uid: number) => {
-    dispatch(cartSlice.actions.decrease(uid));
+  const decreaseCount = (uid: string) => {
+    dispatch(decrease(uid));
   };
 
-  const increaseCount = (uid: number) => {
-    dispatch(cartSlice.actions.increase(uid));
+  const increaseCount = (uid: string) => {
+    dispatch(increase(uid));
   };
 
-  const removeItem = (uid: number) => {
-    dispatch(cartSlice.actions.remove(uid));
+  const removeItem = (uid: string) => {
+    dispatch(remove(uid));
   };
 
   return {
+    pizza,
     cart,
     totalPrice,
     openModal,
