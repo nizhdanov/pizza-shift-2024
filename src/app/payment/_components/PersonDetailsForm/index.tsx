@@ -33,7 +33,7 @@ export const PersonDetailsForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex w-full max-w-[464px] flex-col gap-4'
+          className='flex w-full max-w-form flex-col gap-4'
         >
           <FormField
             control={form.control}

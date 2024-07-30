@@ -7,8 +7,8 @@ const initialState = {
   selectedSuggestion: null as AddressSuggestion | null
 };
 
-export const sugestionSlice = createAppSlice({
-  name: 'sugestion',
+export const suggestionSlice = createAppSlice({
+  name: 'suggestion',
   initialState,
   selectors: {
     selectSuggestions: (state) => state.suggestions,
@@ -60,7 +60,7 @@ export const sugestionSlice = createAppSlice({
 });
 
 export const { selectSuggestions, selectLoadingSuggestions, selectSelectedSuggestion } =
-  sugestionSlice.selectors;
+  suggestionSlice.selectors;
 
 export const { fetchSuggestions, chooseSuggestion, clearSelectedSuggestion, clearSuggestions } =
-  sugestionSlice.actions;
+  suggestionSlice.actions;

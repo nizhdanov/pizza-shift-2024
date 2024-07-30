@@ -46,7 +46,7 @@ export const NewAddress = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex w-full max-w-[464px] flex-col gap-4'
+          className='flex w-full max-w-form flex-col gap-4'
         >
           <div className='space-y-[6px]'>
             <FormLabel onClick={() => inputRef.current?.focus()}>Город, улица и дом*</FormLabel>
@@ -68,7 +68,7 @@ export const NewAddress = () => {
                 align='start'
                 asChild
               >
-                <ul className='w-full max-w-[464px] rounded-xs px-3 py-2'>
+                <ul className='w-full max-w-form rounded-xs px-3 py-2'>
                   {suggestions.map((suggestion) => (
                     <li
                       key={suggestion.value}

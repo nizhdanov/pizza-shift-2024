@@ -22,7 +22,7 @@ export const MyAddresses = () => {
       </div>
 
       {isEmpty && (
-        <div className='w-full max-w-[464px] text-center md:max-w-[328px]'>
+        <div className='w-full max-w-form text-center'>
           <NoAddressesYetIllustration className='' />
           <Typography tag='p' variant='16-regular' className='text-muted-foreground'>
             Адресов пока нет
@@ -30,7 +30,7 @@ export const MyAddresses = () => {
         </div>
       )}
 
-      <div className='flex w-full max-w-[464px] flex-col gap-4'>
+      <div className='flex w-full max-w-form flex-col gap-4'>
         {!isEmpty && (
           <RadioGroup defaultValue={selectedAddress!.value} asChild>
             <ul className='flex flex-col gap-4'>

@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
 import { Dialog, DialogDescription, DialogTitle } from '@radix-ui/react-dialog';
 
 import { useIsDesktop } from '@hooks/useIsDesktop';
+import { Button } from '@ui/button';
 import { ModalContent, SheetContent, SheetHeader } from '@ui/dialog';
 import { Typography, typographyVariants } from '@ui/typography';
 import { toppingsToString } from '@utils/toppingsToString';
@@ -9,7 +9,6 @@ import { FailureIcon } from '@icons/FailureIcon';
 import { SuccessIcon } from '@icons/SuccessIcon';
 import { useGetPizzaByIdResult } from '@modules/pizza';
 import { CM_MAP, DOUGH_MAP, SIZE_MAP } from '@constants/map';
-import { PATHS } from '@constants/paths';
 
 import { usePaymentResultModal } from './hooks/usePaymentResultModal';
 
@@ -17,15 +16,15 @@ const OrderField = ({ size, doughs, toppings, pizzaId, count, uid }: CartItem) =
   const { pizza } = useGetPizzaByIdResult(pizzaId);
 
   return (
-    <span
+    <li
       key={uid}
-      className='w-full'
-    >{`${pizza?.name}, ${SIZE_MAP[size.name].toLowerCase()} ${CM_MAP[size.name]} см, ${DOUGH_MAP[doughs.name].toLowerCase()} тесто ${toppingsToString(toppings)} х ${count}`}</span>
+      className={typographyVariants({ className: 'w-full', variant: '16-regular' })}
+    >{`${pizza?.name}, ${SIZE_MAP[size.name].toLowerCase()} ${CM_MAP[size.name]} см, ${DOUGH_MAP[doughs.name].toLowerCase()} тесто ${toppingsToString(toppings)} х ${count}`}</li>
   );
 };
 
 const PaymentResultModalContent = () => {
-  const { paymentResult, address, cartItems, totalPrice } = usePaymentResultModal();
+  const { paymentResult, address, cartItems, totalPrice, onClick } = usePaymentResultModal();
 
   return (
     <div className='flex flex-col gap-6'>
@@ -57,11 +56,11 @@ const PaymentResultModalContent = () => {
               <Typography tag='h6' variant='12-regular'>
                 Заказ
               </Typography>
-              <Typography tag='p' variant='16-regular'>
+              <ul>
                 {cartItems.map((item) => (
                   <OrderField key={item.uid} {...item} />
                 ))}
-              </Typography>
+              </ul>
             </div>
             <div className='space-y-1'>
               <Typography tag='h6' variant='12-regular'>
@@ -80,20 +79,18 @@ const PaymentResultModalContent = () => {
               </Typography>
             </div>
             <DialogDescription asChild>
-              <Typography tag='p' variant='14-regular' className='text-muted-foreground'>
+              <Typography
+                tag='p'
+                variant='14-regular'
+                className='text-center text-muted-foreground'
+              >
                 Вся информация была продублирована в SMS
               </Typography>
             </DialogDescription>
           </div>
-          <Link
-            to={PATHS.orders}
-            className={typographyVariants({
-              variant: '16-medium',
-              className: 'self-center underline'
-            })}
-          >
+          <Button onClick={onClick} variant='link' size='fit'>
             Перейти в заказы
-          </Link>
+          </Button>
         </>
       )}
     </div>

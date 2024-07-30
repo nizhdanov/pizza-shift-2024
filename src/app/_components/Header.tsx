@@ -11,7 +11,7 @@ import {
 import { PATHS } from '@/lib/constants/paths';
 import { useAppSelector } from '@/lib/redux';
 import { useIsDesktop } from '@hooks/useIsDesktop';
-import { buttonVariants } from '@ui/button';
+import { Button, buttonVariants } from '@ui/button';
 import {
   Dialog,
   DialogDescription,
@@ -158,26 +158,20 @@ export const Header = () => {
                   </Span>
                 </Link>
                 {!isAuth && (
-                  <Link
-                    to={PATHS.signin}
-                    className={buttonVariants({ variant: 'ghost', size: 'md' })}
-                  >
+                  <Button variant='ghost' size='md'>
                     <LogInIcon className='mr-2 size-5' />
                     <Span variant='16-medium' color='body-primary'>
                       Войти
                     </Span>
-                  </Link>
+                  </Button>
                 )}
                 {isAuth && (
-                  <Link
-                    to={PATHS.index}
-                    className={buttonVariants({ variant: 'ghost', size: 'md' })}
-                  >
+                  <Button variant='ghost' size='md'>
                     <LogOutIcon className='mr-2 size-5' />
                     <Span variant='16-medium' color='body-primary'>
                       Выйти
                     </Span>
-                  </Link>
+                  </Button>
                 )}
               </SheetBody>
             </SheetContent>

@@ -6,7 +6,7 @@ export const authApi = baseApi.injectEndpoints({
       query: (dto) => ({
         url: 'auth/otp',
         method: 'POST',
-        body: dto
+        data: dto
       })
     })
   })

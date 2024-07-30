@@ -70,7 +70,7 @@ export const CartPage = () => {
       <main className='mt-6 flex flex-col items-center gap-6 md:mt-12'>
         <EmptyCartIllustration />
         <Span variant='16-medium'>Ваша корзина пуста</Span>
-        <Link to={PATHS.index} className={buttonVariants({ variant: 'link' })}>
+        <Link to={PATHS.index} className={buttonVariants({ variant: 'link', size: 'fit' })}>
           Перейти в меню
         </Link>
       </main>

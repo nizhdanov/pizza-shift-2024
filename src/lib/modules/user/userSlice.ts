@@ -1,4 +1,4 @@
-import { createAppSlice } from '../redux';
+import { createAppSlice } from '@/lib/redux';
 
 const initialState = {
   person: {} as PersonalData,

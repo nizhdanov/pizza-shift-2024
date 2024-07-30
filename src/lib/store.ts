@@ -5,7 +5,7 @@ import { cartSlice } from '@modules/cart';
 import { mutationResultSlice } from '@modules/mutationResult';
 import { selectedItemSlice } from '@modules/selectedItem';
 import { stageSlice } from '@modules/stage';
-import { sugestionSlice } from '@modules/sugestion';
+import { suggestionSlice } from '@modules/suggestion';
 import { userSlice } from '@modules/user';
 
 import { baseApi } from './redux';
@@ -16,7 +16,7 @@ const rootReducer = combineSlices(
   selectedItemSlice,
   userSlice,
   addressSlice,
-  sugestionSlice,
+  suggestionSlice,
   stageSlice,
   mutationResultSlice
 );

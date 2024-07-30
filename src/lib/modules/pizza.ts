@@ -12,7 +12,7 @@ export const pizzaApi = baseApi.injectEndpoints({
       query: (dto) => ({
         url: 'pizza/payment',
         method: 'POST',
-        body: dto
+        data: dto
       })
     }),
     getPizzaOrders: build.query<PizzaCatalogResponse, void>({

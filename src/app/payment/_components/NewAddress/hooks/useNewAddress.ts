@@ -16,7 +16,7 @@ import {
   selectLoadingSuggestions,
   selectSelectedSuggestion,
   selectSuggestions
-} from '@modules/sugestion';
+} from '@modules/suggestion';
 
 export const useNewAddress = () => {
   const dispatch = useAppDispatch();

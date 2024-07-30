@@ -7,6 +7,23 @@ interface CreateOtpDto {
   phone: string;
 }
 
+interface SignInDto {
+  phone: string;
+  code: number;
+}
+
+interface SignInResponse extends BaseResponse {
+  token: string;
+  user: {
+    phone: string;
+    firstname?: string;
+    lastname?: string;
+    middlename?: string;
+    email?: string;
+    city?: string;
+  };
+}
+
 interface AuthOtpResponse extends BaseResponse {
   retryDelay: number;
 }

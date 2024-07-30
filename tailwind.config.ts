@@ -17,6 +17,9 @@ export default {
       height: {
         px: '1px'
       },
+      maxWidth: {
+        form: '464px'
+      },
       fontWeight: {
         regular: '400'
       },

@@ -18,7 +18,7 @@ interface PostAddressSuggestionsParams {
 export const postAddressSuggestions = async ({
   params,
   config
-}: AxiosRequestConfig<PostAddressSuggestionsParams>) =>
+}: ApiConfig<PostAddressSuggestionsParams>) =>
   dadataInstance.post<PostAddressSuggestionsResponse>(
     'address',
     {

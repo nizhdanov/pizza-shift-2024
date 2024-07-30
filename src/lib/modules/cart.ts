@@ -45,8 +45,8 @@ export const cartSlice = createAppSlice({
             doughs: item.doughs,
             size: item.size,
             toppings: item.toppings,
-            name: 'Четыре Сыра',
-            description: 'Пицца с миксом моцареллы, чеддера, пармезана и феты.'
+            name: '',
+            description: ''
           };
 
           return cartPizza;

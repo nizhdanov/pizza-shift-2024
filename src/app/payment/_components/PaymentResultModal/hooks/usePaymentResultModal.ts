@@ -16,18 +16,25 @@ export const usePaymentResultModal = () => {
   const totalPrice = useAppSelector(selectTotalPrice);
   const cartItems = useAppSelector(selectCartItems);
 
-  const address = selectedAddress ? selectedAddress.value + selectedAddress.apartment : '';
+  const address = `${selectedAddress!.value}, кв ${selectedAddress!.apartment}`;
 
   const open = !!paymentResult;
+
   const onClose = () => {
-    dispatch(setPizzaPaymentResult(null));
     if (paymentResult?.success) {
       dispatch(clearCart());
       navigate(PATHS.index, { replace: true });
-    } else {
-      dispatch(setPaymentStage('personDetails'));
     }
+    dispatch(setPizzaPaymentResult(null));
+    dispatch(setPaymentStage('personDetails'));
   };
 
-  return { onClose, open, paymentResult, address, totalPrice, cartItems };
+  const onClick = () => {
+    navigate(PATHS.orders, { replace: true });
+    dispatch(clearCart());
+    dispatch(setPizzaPaymentResult(null));
+    dispatch(setPaymentStage('personDetails'));
+  };
+
+  return { onClose, onClick, open, paymentResult, address, totalPrice, cartItems };
 };
