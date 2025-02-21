@@ -9,7 +9,6 @@ import {
 } from 'lucide-react';
 
 import { PATHS } from '@/lib/constants/paths';
-import { useAppSelector } from '@/lib/redux';
 import { useIsDesktop } from '@hooks/useIsDesktop';
 import { Button, buttonVariants } from '@ui/button';
 import {
@@ -24,15 +23,38 @@ import {
 import { Span } from '@ui/typography';
 import { cn } from '@utils/cn';
 import { FullLogoIcon } from '@icons/FullLogoIcon';
-import { selectTotalCount } from '@modules/cart';
 
-// TODO
+import { useHeader } from './hooks/useHeader';
+
+const AuthButtons = () => {
+  const { isAuth, openModal } = useHeader();
+
+  return (
+    <>
+      {!isAuth && (
+        <Button onClick={openModal} variant='ghost' size='md'>
+          <LogInIcon className='mr-2 size-5' />
+          <Span variant='16-medium' color='body-primary'>
+            Войти
+          </Span>
+        </Button>
+      )}
+      {isAuth && (
+        <Button variant='ghost' size='md'>
+          <LogOutIcon className='mr-2 size-5' />
+          <Span variant='16-medium' color='body-primary'>
+            Выйти
+          </Span>
+        </Button>
+      )}
+    </>
+  );
+};
 
 export const Header = () => {
   const isDesktop = useIsDesktop();
 
-  const isAuth = false;
-  const totalCount = useAppSelector(selectTotalCount);
+  const { isAuth, totalCount } = useHeader();
 
   return (
     <>
@@ -94,22 +116,7 @@ export const Header = () => {
                 </Span>
               </Link>
 
-              {!isAuth && (
-                <Button variant='ghost' size='md'>
-                  <LogInIcon className='mr-2 size-5' />
-                  <Span variant='16-medium' color='body-primary'>
-                    Войти
-                  </Span>
-                </Button>
-              )}
-              {isAuth && (
-                <Button variant='ghost' size='md'>
-                  <LogOutIcon className='mr-2 size-5' />
-                  <Span variant='16-medium' color='body-primary'>
-                    Выйти
-                  </Span>
-                </Button>
-              )}
+              <AuthButtons />
             </div>
           </nav>
         )}
@@ -155,22 +162,8 @@ export const Header = () => {
                     Корзина
                   </Span>
                 </Link>
-                {!isAuth && (
-                  <Button variant='ghost' size='md'>
-                    <LogInIcon className='mr-2 size-5' />
-                    <Span variant='16-medium' color='body-primary'>
-                      Войти
-                    </Span>
-                  </Button>
-                )}
-                {isAuth && (
-                  <Button variant='ghost' size='md'>
-                    <LogOutIcon className='mr-2 size-5' />
-                    <Span variant='16-medium' color='body-primary'>
-                      Выйти
-                    </Span>
-                  </Button>
-                )}
+
+                {/* <AuthButtons /> */}
               </SheetBody>
             </SheetContent>
           </Dialog>

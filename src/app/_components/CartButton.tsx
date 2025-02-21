@@ -11,8 +11,7 @@ export const CartButton = () => {
   const cart = useAppSelector(selectCartItems);
   const totalCount = useAppSelector(selectTotalCount);
 
-  if (isDesktop) return;
-  if (cart.length <= 0) return;
+  if (isDesktop || cart.length === 0) return;
 
   return (
     <Link

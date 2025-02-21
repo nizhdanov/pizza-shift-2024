@@ -7,7 +7,7 @@ import { newAddressScheme } from '@/lib/zod/newAddressScheme';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useDebounceCallback } from '@hooks/useDebounceCallback';
 import { addAddress, chooseAddress } from '@modules/address';
-import { setPaymentStage } from '@modules/stage';
+import { setPaymentStage } from '@modules/pizza';
 import {
   chooseSuggestion,
   clearSelectedSuggestion,

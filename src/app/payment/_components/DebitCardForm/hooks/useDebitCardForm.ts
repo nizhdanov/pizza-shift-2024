@@ -6,9 +6,12 @@ import { debitCardSchema } from '@/lib/zod/debitCardSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { selectSelectedAddress } from '@modules/address';
 import { selectPizzas } from '@modules/cart';
-import { selectPizzaPaymentResult, setPizzaPaymentResult } from '@modules/mutationResult';
-import { usePostPizzaPaymentMutation } from '@modules/pizza';
-import { setPaymentStage } from '@modules/stage';
+import {
+  selectPizzaPaymentResult,
+  setPaymentStage,
+  setPizzaPaymentResult,
+  usePostPizzaPaymentMutation
+} from '@modules/pizza';
 import { selectPerson } from '@modules/user';
 
 export const useDebitCardForm = () => {
@@ -25,7 +28,7 @@ export const useDebitCardForm = () => {
     reValidateMode: 'onBlur'
   });
 
-  const [postPizzaPayment] = usePostPizzaPaymentMutation();
+  const [postPizzaPayment, { isLoading }] = usePostPizzaPaymentMutation();
   const paymentResult = useAppSelector(selectPizzaPaymentResult);
   const person = useAppSelector(selectPerson);
   const address = useAppSelector(selectSelectedAddress);
@@ -55,5 +58,5 @@ export const useDebitCardForm = () => {
     }
   };
 
-  return { form, paymentResult, onSubmit, back };
+  return { form, paymentResult, isLoading, onSubmit, back };
 };

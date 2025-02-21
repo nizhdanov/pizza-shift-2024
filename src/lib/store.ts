@@ -1,10 +1,10 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit';
 
 import { addressSlice } from '@modules/address';
+import { authSlice } from '@modules/auth';
 import { cartSlice } from '@modules/cart';
-import { mutationResultSlice } from '@modules/mutationResult';
+import { pizzaSlice } from '@modules/pizza';
 import { selectedItemSlice } from '@modules/selectedItem';
-import { stageSlice } from '@modules/stage';
 import { suggestionSlice } from '@modules/suggestion';
 import { userSlice } from '@modules/user';
 
@@ -17,8 +17,8 @@ const rootReducer = combineSlices(
   userSlice,
   addressSlice,
   suggestionSlice,
-  stageSlice,
-  mutationResultSlice
+  pizzaSlice,
+  authSlice
 );
 
 export const store = configureStore({

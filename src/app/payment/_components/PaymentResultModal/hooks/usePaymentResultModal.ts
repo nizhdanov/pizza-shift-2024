@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/lib/redux';
 import { selectSelectedAddress } from '@modules/address';
 import { clearCart, selectCartItems, selectTotalPrice } from '@modules/cart';
-import { selectPizzaPaymentResult, setPizzaPaymentResult } from '@modules/mutationResult';
-import { setPaymentStage } from '@modules/stage';
+import { selectPizzaPaymentResult, setPaymentStage, setPizzaPaymentResult } from '@modules/pizza';
 import { PATHS } from '@constants/paths';
 
 export const usePaymentResultModal = () => {

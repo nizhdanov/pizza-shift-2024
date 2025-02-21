@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 
 import { useAppSelector } from '@/lib/redux';
 import { selectCartItems } from '@modules/cart';
-import { PaymentStage, selectPaymentStage } from '@modules/stage';
+import { type PaymentStage, selectPaymentStage } from '@modules/pizza';
 import { PATHS } from '@constants/paths';
 
 import { DebitCardForm } from './_components/DebitCardForm';
@@ -18,22 +18,14 @@ const component: Record<PaymentStage, ReactNode> = {
   debitCard: <DebitCardForm />
 };
 
-const Container = () => {
-  const stage = useAppSelector(selectPaymentStage);
-
-  return component[stage];
-};
-
 export const PaymentPage = () => {
   const cartItems = useAppSelector(selectCartItems);
+
+  const stage = useAppSelector(selectPaymentStage);
 
   if (cartItems.length === 0) {
     return <Navigate to={PATHS.index} replace />;
   }
 
-  return (
-    <main className='container mt-6 space-y-4 md:mt-12'>
-      <Container />
-    </main>
-  );
+  return <main className='container mt-6 space-y-4 md:mt-12'>{component[stage]}</main>;
 };

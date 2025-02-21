@@ -10,7 +10,7 @@ import { PaymentResultModal } from '../PaymentResultModal';
 import { useDebitCardForm } from './hooks/useDebitCardForm';
 
 export const DebitCardForm = () => {
-  const { form, paymentResult, onSubmit, back } = useDebitCardForm();
+  const { form, paymentResult, isLoading, onSubmit, back } = useDebitCardForm();
 
   return (
     <>
@@ -70,8 +70,12 @@ export const DebitCardForm = () => {
             </div>
           </div>
 
-          <Button disabled={!form.formState.isValid} type='submit' className='mt-6 w-full'>
-            Оплатить
+          <Button
+            disabled={!form.formState.isValid && !isLoading}
+            type='submit'
+            className='mt-6 w-full'
+          >
+            {isLoading ? 'Подождите' : 'Оплатить'}
           </Button>
         </form>
       </Form>

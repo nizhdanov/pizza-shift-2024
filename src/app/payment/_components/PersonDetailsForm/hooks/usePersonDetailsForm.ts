@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/redux';
 import { personDetailsSchema } from '@/lib/zod/personDetailsSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { fillAddresses } from '@modules/address';
-import { setPaymentStage } from '@modules/stage';
+import { setPaymentStage } from '@modules/pizza';
 import { fillPerson, selectPerson } from '@modules/user';
 
 export const usePersonDetailsForm = () => {

@@ -1,4 +1,4 @@
-import { baseApi } from '../redux';
+import { baseApi } from '@/lib/redux';
 
 export const pizzaApi = baseApi.injectEndpoints({
   endpoints: (build) => ({

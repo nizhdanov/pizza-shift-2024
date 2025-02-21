@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/lib/redux';
 import { chooseAddress, selectAddresses, selectSelectedAddress } from '@modules/address';
-import { setPaymentStage } from '@modules/stage';
+import { setPaymentStage } from '@modules/pizza';
 
 export const useMyAddresses = () => {
   const dispatch = useAppDispatch();

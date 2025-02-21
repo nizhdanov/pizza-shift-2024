@@ -11,10 +11,10 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts,tsx}": [
       "prettier --write"
     ],
-    "*.{ts,tsx}": [
+    "*.{tsx}": [
       "prettier --write",
       "eslint --no-error-on-unmatched-pattern --fix"
     ]

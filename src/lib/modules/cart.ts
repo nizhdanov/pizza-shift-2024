@@ -7,6 +7,7 @@ import { createAppSlice } from '../redux';
 const initialState: CartItem[] = [];
 
 const isSame = (a: CartItem, b: SelectedPizza) =>
+  a.pizzaId === b.pizzaId &&
   a.doughs.name === b.doughs.name &&
   a.size.name === b.size.name &&
   a.toppings
@@ -87,12 +88,8 @@ export const cartSlice = createAppSlice({
         fulfilled: (state, { payload }) => {
           const sameItem = state.find((item) => isSame(item, payload));
           const item = state.find((item) => item.uid === payload.uid)!;
-          const index = state.findIndex((item) => item.uid === payload.uid);
 
-          if (sameItem) {
-            sameItem.count += item.count;
-            state.splice(index, 1);
-          } else {
+          if (!sameItem) {
             item.doughs = payload.doughs;
             item.size = payload.size;
             item.toppings = payload.toppings;
