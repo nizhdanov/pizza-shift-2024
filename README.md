@@ -1,10 +1,10 @@
 ## Приложение для заказа пиццы 🍕
 
-> [backend API](https://shift-backend.onrender.com/api)
+> [backend API](https://pizza-back-mongo.onrender.com/api)
 
-> [disigne](https://www.figma.com/design/rtf8FFjkY084yTN81wsjsr/Задания-ШИФТ-Интенсив?node-id=4177-5475&t=jqFYdPyNf9CENrEq-0)
+> [disigne](https://www.figma.com/design/QfSpTytdJgcKPYjxzW4LsV/SHIFT-V.3?node-id=4177-5475&t=ynFS7XsFEuwGQ421-1)
 
-> https://pizza-shift-2024.vercel.app/
+> [demo](https://pizza-shift-2024.vercel.app/)
 
 TODO
 
