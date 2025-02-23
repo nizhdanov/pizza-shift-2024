@@ -10,7 +10,8 @@ export const userApi = baseApi.injectEndpoints({
         data: dto
       })
     }),
-    getSession: build.query<SignInResponse, void>({
+
+    getSession: build.query<unknown, void>({
       query: () => ({
         url: 'users/session',
         method: 'GET',

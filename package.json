@@ -28,7 +28,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@reduxjs/toolkit": "^2.2.5",
-    "@siberiacancode/reactuse": "^0.0.59",
+    "@siberiacancode/reactuse": "^0.0.93",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

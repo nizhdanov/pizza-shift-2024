@@ -12,6 +12,8 @@ interface SignInDto {
   code: number;
 }
 
+type Status = 0 | 1 | 2 | 3 | 4;
+
 interface SignInResponse extends BaseResponse {
   token: string;
   user: {
@@ -30,6 +32,15 @@ interface AuthOtpResponse extends BaseResponse {
 
 interface PizzaCatalogResponse extends BaseResponse {
   catalog: Pizza[];
+}
+
+interface PizzaOrdersResponse extends BaseResponse {
+  orders: {
+    person: Person;
+    receiverAddress: ReceiverAddress;
+    status: Status;
+    cancellable: boolean;
+  }[];
 }
 
 interface CartPizza {
@@ -52,7 +63,7 @@ interface PizzaPaymentResponse extends BaseResponse {
   order: {
     receiverAddress: ReceiverAddress;
     person: Person;
-    status: 0 | 1 | 2 | 3 | 4;
+    status: Status;
     cancellable: boolean;
   };
 }

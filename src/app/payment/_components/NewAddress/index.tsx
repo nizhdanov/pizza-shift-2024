@@ -75,7 +75,7 @@ export const NewAddress = () => {
                       className='cursor-pointer rounded-xs px-3 py-2 hover:bg-muted'
                       onClick={() => selectSuggestion(suggestion.value)}
                     >
-                      {suggestion.value ?? '@@@'}
+                      {suggestion.value ?? ''}
                     </li>
                   ))}
                 </ul>

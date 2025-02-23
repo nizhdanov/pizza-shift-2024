@@ -27,7 +27,7 @@ import { FullLogoIcon } from '@icons/FullLogoIcon';
 import { useHeader } from './hooks/useHeader';
 
 const AuthButtons = () => {
-  const { isAuth, openModal } = useHeader();
+  const { isAuth, openModal, logout } = useHeader();
 
   return (
     <>
@@ -40,7 +40,7 @@ const AuthButtons = () => {
         </Button>
       )}
       {isAuth && (
-        <Button variant='ghost' size='md'>
+        <Button onClick={logout} variant='ghost' size='md'>
           <LogOutIcon className='mr-2 size-5' />
           <Span variant='16-medium' color='body-primary'>
             Выйти
@@ -74,7 +74,10 @@ export const Header = () => {
 
         {isDesktop && (
           <nav
-            className={cn('flex w-full items-center', isAuth ? 'justify-between' : 'justify-end')}
+            className={cn(
+              'ml-8 flex w-full items-center',
+              isAuth ? 'justify-between' : 'justify-end'
+            )}
           >
             {isAuth && (
               <div>
@@ -163,7 +166,7 @@ export const Header = () => {
                   </Span>
                 </Link>
 
-                {/* <AuthButtons /> */}
+                <AuthButtons />
               </SheetBody>
             </SheetContent>
           </Dialog>

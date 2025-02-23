@@ -1,4 +1,5 @@
 import { baseApi } from '@/lib/redux';
+import { USER_TOKEN_KEY } from '@constants/localStorage';
 
 export const pizzaApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -15,22 +16,29 @@ export const pizzaApi = baseApi.injectEndpoints({
         data: dto
       })
     }),
-    getPizzaOrders: build.query<PizzaCatalogResponse, void>({
+    getPizzaOrders: build.query<PizzaOrdersResponse, void>({
       query: () => ({
         url: 'pizza/orders',
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(USER_TOKEN_KEY)}`
+        }
       })
     }),
     getPizzaOrderById: build.query<PizzaCatalogResponse, string>({
       query: (orderId) => ({
         url: `pizza/orders/${orderId}`,
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(USER_TOKEN_KEY)}`
+        }
       })
     })
   })
 });
 
-export const { useGetPizzaCatalogQuery, usePostPizzaPaymentMutation } = pizzaApi;
+export const { useGetPizzaCatalogQuery, usePostPizzaPaymentMutation, useGetPizzaOrdersQuery } =
+  pizzaApi;
 
 export const useGetPizzaByIdResult = (pizzaId: string) =>
   useGetPizzaCatalogQuery(undefined, {

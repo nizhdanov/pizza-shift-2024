@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { LoaderCircleIcon } from 'lucide-react';
 
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { useIsDesktop } from '@hooks/useIsDesktop';
@@ -18,8 +19,7 @@ import { type AuthStage } from '@modules/auth';
 import { useSignInModal } from './hooks/useSignInModal';
 
 const OtpStage = () => {
-  const { form, onSubmit } = useSignInModal();
-
+  const { otpForm, phone, isLoading, onSubmit } = useSignInModal();
   return (
     <>
       <DialogDescription asChild>
@@ -27,43 +27,29 @@ const OtpStage = () => {
           Введите проверочный код для входа в личный кабинет
         </Typography>
       </DialogDescription>
-      <Form {...form}>
+
+      <Form {...otpForm}>
         <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='flex w-full max-w-form flex-col gap-4'
+          onSubmit={otpForm.handleSubmit(onSubmit)}
+          className='flex w-full max-w-form flex-col items-stretch gap-4'
         >
-          <FormField
-            control={form.control}
-            name='phone'
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input disabled {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <Input defaultValue={phone} disabled />
 
           <FormField
-            control={form.control}
+            control={otpForm.control}
             name='otp'
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PatternInput
-                    format='### ###'
-                    placeholder='Проверочный код'
-                    allowEmptyFormatting
-                    {...field}
-                  />
+                  <PatternInput format='### ###' placeholder='Проверочный код' {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <Button type='submit' className='mt-6 w-full md:w-[328px]'>
+          <Button disabled={isLoading} type='submit' className='mt-6 w-full'>
+            {isLoading && <LoaderCircleIcon className='mr-2 animate-spin' />}
             Войти
           </Button>
         </form>
@@ -73,7 +59,7 @@ const OtpStage = () => {
 };
 
 const PhoneStage = () => {
-  const { field, nextStage } = useSignInModal();
+  const { phoneForm, nextStage } = useSignInModal();
 
   return (
     <>
@@ -82,10 +68,29 @@ const PhoneStage = () => {
           Введите номер телефона для входа в личный кабинет
         </Typography>
       </DialogDescription>
-      <PatternInput format='+7 ### ### ## ##' allowEmptyFormatting {...field} />
-      <Button onClick={nextStage} className='mt-6 w-full md:w-[328px]'>
-        Продолжить
-      </Button>
+      <Form {...phoneForm}>
+        <form
+          onSubmit={phoneForm.handleSubmit(nextStage)}
+          className='flex w-full max-w-form flex-col gap-4'
+        >
+          <FormField
+            control={phoneForm.control}
+            name='phone'
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <PatternInput format='+7 ### ### ## ##' allowEmptyFormatting {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type='submit' className='mt-6 w-full'>
+            Продолжить
+          </Button>
+        </form>
+      </Form>
     </>
   );
 };
@@ -101,14 +106,14 @@ const SignInModalContent = () => {
   if (stage === null) return;
 
   return (
-    <>
+    <div className='flex flex-col gap-6'>
       <DialogTitle asChild>
         <Typography tag='h2' variant='24-bold'>
           Авторизация
         </Typography>
       </DialogTitle>
       {component[stage]}
-    </>
+    </div>
   );
 };
 
@@ -120,13 +125,13 @@ export const SignInModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       {isDesktop && (
-        <ModalContent className='max-w-max px-16'>
+        <ModalContent className='max-w-lg px-16'>
           <SignInModalContent />
         </ModalContent>
       )}
 
       {!isDesktop && (
-        <SheetContent side='bottom' className='max-h-svh overflow-y-auto'>
+        <SheetContent side='bottom'>
           <SheetHeader divider={false} action='back' />
           <SignInModalContent />
         </SheetContent>

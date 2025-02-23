@@ -9,7 +9,8 @@ export const userSlice = createAppSlice({
   name: 'user',
   initialState,
   selectors: {
-    selectPerson: (state) => state.person
+    selectPerson: (state) => state.person,
+    selectPhone: (state) => state.person.phone
   },
   reducers: (create) => {
     return {
@@ -19,11 +20,17 @@ export const userSlice = createAppSlice({
 
       fillDebitCard: create.reducer<DebitCard>((state, { payload }) => {
         state.debitCard = payload;
-      })
+      }),
+
+      updatePhone: create.reducer<string>((state, { payload }) => {
+        state.person.phone = payload;
+      }),
+
+      clearUser: create.reducer(() => initialState)
     };
   }
 });
 
-export const { selectPerson } = userSlice.selectors;
+export const { selectPerson, selectPhone } = userSlice.selectors;
 
-export const { fillDebitCard, fillPerson } = userSlice.actions;
+export const { fillDebitCard, fillPerson, clearUser, updatePhone } = userSlice.actions;
