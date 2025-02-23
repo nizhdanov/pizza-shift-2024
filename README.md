@@ -6,6 +6,8 @@
 
 - [demo](https://pizza-shift-2024.vercel.app/)
 
-> [!NOTE]
+> [!IMPORTANT]
 > [Посмотреть OTP код](https://pizza-back-mongo.onrender.com/otps)
+
+> [!NOTE]
 > Загрузка может быть долгой т.к. используется бесплатный хостинг
